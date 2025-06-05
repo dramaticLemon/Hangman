@@ -3,8 +3,10 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Word {
+    final static String patternUserInput = "^[a-zA-Zа-яёА-ЯЁ]+$";
 
     public static List<Integer> findIndex(char inputChar, String word) {
         List<Integer> indexes = new ArrayList<>();
@@ -31,8 +33,8 @@ public class Word {
     }
 
     public static void printCurrentVersion(String str, char ch, List<Integer> indexes) {
-        Game.printingString = replaceChar(str, ch, indexes);
-        System.out.println(Game.printingString);
+        Game.puzzleWord = replaceChar(str, ch, indexes);
+        System.out.println(Game.puzzleWord);
     }
 
     public static char userInputChar(Scanner scanner) {
@@ -40,8 +42,10 @@ public class Word {
         while (true) {
             System.out.println("Enter a char: ");
             input = scanner.next();
-            if (input.length() == 1) {
-                return input.charAt(0);
+            Pattern pattern = Pattern.compile(patternUserInput);
+            boolean matches = pattern.matcher(input).matches();
+            if (matches) {
+                return  input.charAt(0);
             } else {
                 System.out.println("Input Error, please enter a char");
             }

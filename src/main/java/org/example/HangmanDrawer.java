@@ -38,9 +38,8 @@ public class HangmanDrawer {
 
     }
 
+    private final static String pathToPhase = "src/main/resources/";
     private List<String> hangmanDrawings;
-    private final String filePrefix = "phase_";
-    private final String fileExtension = ".txt";
     private final int maxPhrases = HangmanPhase.values().length;
 
     public HangmanDrawer() {
@@ -55,7 +54,9 @@ public class HangmanDrawer {
         }
 
         for (int i = 1; i <= maxPhrases; i++) {
-            String fileName = "src/main/resources/" + filePrefix + i + fileExtension;
+            String filePrefix = "phase_";
+            String fileExtension = ".txt";
+            String fileName = pathToPhase + filePrefix + i + fileExtension;
             try {
                 String content = new String(Files.readAllBytes(Paths.get(fileName)));
 
@@ -75,7 +76,7 @@ public class HangmanDrawer {
             }
         }
         if (!allLoaded) {
-            System.err.println("Attention:not all images were loaded");
+            System.err.println("Attention: not all images were loaded");
         }
     }
 
@@ -93,7 +94,4 @@ public class HangmanDrawer {
         }
     }
 
-    public static void main (String[] args) {
-
-    }
 }
