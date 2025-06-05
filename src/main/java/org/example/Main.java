@@ -9,7 +9,7 @@ public class Main {
     public static void main (String[] args) {
         while (true) {
             if (askStartGame()) {
-                Game.start();
+                Game.start(scanner);
             }
             else {
                 scanner.close();
@@ -29,6 +29,7 @@ public class Main {
                 case "n" -> {
                     return false;
                 }
+
                 case "y" -> {
                     return true;
                 }
