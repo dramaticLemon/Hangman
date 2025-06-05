@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -7,6 +8,7 @@ import java.util.Scanner;
 public class Game {
     static List<String> bankWords;
     static boolean gameFlag = true;
+    static boolean innerGameFlag = true;
     static String guessWord;
     static Scanner scanner = new Scanner(System.in);
     static String printingString;
@@ -30,33 +32,49 @@ public class Game {
             if (input.equalsIgnoreCase("ex")) {
                 System.out.println("Exit ...");
                 gameFlag = false;
+
             }
 
             guessWord = getWord();
+            System.out.println(guessWord);
             printingString = guessWord.replaceAll("\\S", "_");
-            boolean innerFlag = true;
             int counter = 1;
 
-            while (innerFlag) {
+            List<Character> guessesLetters = new ArrayList<>();
+
+            while (innerGameFlag) {
 
                 char inputChar = Word.userInputChar(scanner);
-                List<Integer> list = Word.findIndex(inputChar, guessWord);
+                List<Integer> indexesList = Word.findIndex(inputChar, guessWord);
 
-                if (! list.isEmpty()) {
+                if (! indexesList.isEmpty()) {
+
+                    if (guessesLetters.contains(inputChar)) {
+                        System.out.println("Ты уже отгадал эту букву");
+                        continue;
+                    }
+
                     System.out.println(printingString);
                     printStatus(phaseCount);
-                    Word.printCurrentVersion(printingString, inputChar, list);
+                    Word.printCurrentVersion(printingString, inputChar, indexesList);
+                    guessesLetters.add(inputChar);
                     counter++;
                     if (counter == guessWord.length()) {
-                        innerFlag = false;
+                        innerGameFlag = false;
                     }
                 } else {
+                    System.out.println("Current life " + lifeCount);
+                    if (guessesLetters.contains(inputChar)) {
+                        System.out.println("Ты уже отгадал эту букву");
+                        continue;
+                    }
                     lifeCount--;
                     phaseCount++;
-                    Word.printCurrentVersion(printingString, inputChar, list);
+                    Word.printCurrentVersion(printingString, inputChar, indexesList);
                     printStatus(phaseCount);
+
                     if (lifeCount < 1) {
-                        innerFlag = false;
+                        innerGameFlag = false;
                         System.out.println("=====GAME OVER=====");
                     }
 
@@ -81,9 +99,11 @@ public class Game {
         System.out.println("Current life count: " + lifeCount);
         objDrawer.displayHangman(phase);
     }
+
     private static void reset() {
         lifeCount = 6;
         phaseCount = 1;
+        innerGameFlag = true;
     }
 
 
