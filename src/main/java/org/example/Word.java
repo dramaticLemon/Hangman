@@ -34,7 +34,7 @@ public class Word {
 
     public static void printCurrentVersion(String str, char ch, List<Integer> indexes) {
         Game.puzzleWord = replaceChar(str, ch, indexes);
-        System.out.println(Game.puzzleWord);
+        System.out.println("Mystery word [ " + Game.puzzleWord + " ]");
     }
 
     public static char userInputChar(Scanner scanner) {

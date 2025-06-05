@@ -23,20 +23,19 @@ public class Game {
         int winnerCounter = 1;
         int phaseCount = 1;
 
-        Set<Character> guessesLetters = new HashSet<>();
-        Set<Character> missedLetters = new LinkedHashSet<>();
+        Set<Character> userLetters = new HashSet<>();
 
         while (true) {
             char inputChar = Word.userInputChar(scanner);
             List<Integer> foundIndexes = Word.findIndex(inputChar, guessWord);
 
-            if (guessesLetters.contains(inputChar) || missedLetters.contains(inputChar)) {
+            if (userLetters.contains(inputChar)) {
                 System.out.println("You already use this latter;");
                 continue;
             }
 
             if (! foundIndexes.isEmpty()) {
-                guessesLetters.add(inputChar);
+                userLetters.add(inputChar);
                 winnerCounter++;
                 Word.printCurrentVersion(puzzleWord, inputChar, foundIndexes);
                 if (winnerCounter == guessWord.length()) {
@@ -44,8 +43,8 @@ public class Game {
                     break;
                 }
             } else {
-                missedLetters.add(inputChar);
-                printMissedChar(missedLetters, inputChar);
+                userLetters.add(inputChar);
+                printMissedChar(userLetters, inputChar);
                 lifeCount--;
                 Word.printCurrentVersion(puzzleWord, inputChar, foundIndexes);
                 printStatus(phaseCount);
@@ -62,7 +61,6 @@ public class Game {
     }
 
     private static void printMissedChar (Set<Character> missedChar, char c) {
-        missedChar.add(c);
         System.out.println("Wrong letters:");
         System.out.println(missedChar);
     }
